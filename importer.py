@@ -56,12 +56,14 @@ spreadsheet = client.open_by_key(spreadsheet_id)
 
 # get csv worksheet
 sheet_name = csv_path.replace(".csv", "")
+print("Write to:", sheet_name)
+
 try:
-    ws = spreadsheet.worksheet(sheet_name)
+    ws = spreadsheet.get_worksheet(worksheet_id)
 
 # create a new sheet from file name if previous sheet was not found
 except gspread.exceptions.WorksheetNotFound:
-    print("Creating new sheet:", sheet_name)
+
     current_num_sheets = len(spreadsheet.worksheets())
     ws = spreadsheet.add_worksheet(
         sheet_name, 
