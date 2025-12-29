@@ -1,10 +1,13 @@
 from csv import reader
 from datetime import datetime
 from distutils.util import strtobool
-from os import getenv
+from os import getenv, listdir
 
 import gspread
+import pandas as pd
 from google.oauth2.service_account import Credentials
+
+print(listdir("exports"))
 
 # Input vars
 csv_path = getenv("INPUT_CSV_PATH")
@@ -32,37 +35,41 @@ def next_available_row(worksheet):
     str_list = list(filter(None, worksheet.col_values(1)))
     return len(str_list) + 1
 
-# Read csv file as a list of lists
-with open(csv_path, "r") as read_obj:
-    # pass the file object to reader() to get the reader object
-    csv_reader = reader(read_obj)
-    # Pass reader object to list() to get a list of lists
-    list_of_rows = list(csv_reader)
+csv = pd.read_csv(csv_path, header=0, index_col=None)
+print(csv)
+raise
 
-# Insert update timestamp to the list
-current_time = datetime.now().replace(second=0, microsecond=0)
-current_time = current_time.timestamp
-list_of_rows[0].append("update_time")
-for data_row in list_of_rows[1:]:
-    data_row.append(str(int(current_time)))
+# # Read csv file as a list of lists
+# with open(csv_path, "r") as read_obj:
+#     # pass the file object to reader() to get the reader object
+#     csv_reader = reader(read_obj)
+#     # Pass reader object to list() to get a list of lists
+#     list_of_rows = list(csv_reader)
 
-creds = Credentials.from_service_account_info(
-    service_account_info, scopes=scopes
-)
-client = gspread.authorize(creds)
-spreadsheet = client.open_by_key(spreadsheet_id)
+# # Insert update timestamp to the list
+# current_time = datetime.now().replace(second=0, microsecond=0)
+# current_time = current_time.timestamp()
+# list_of_rows[0].append("update_time")
+# for data_row in list_of_rows[1:]:
+#     data_row.append(str(int(current_time)))
 
-# get csv worksheet
-ws = spreadsheet.get_worksheet(worksheet_id)
-print("Write to:", ws)
+# creds = Credentials.from_service_account_info(
+#     service_account_info, scopes=scopes
+# )
+# client = gspread.authorize(creds)
+# spreadsheet = client.open_by_key(spreadsheet_id)
 
-if append_content:
-    start_from = next_available_row(ws)
-    list_of_rows = list_of_rows[1:]  # skip header row
-else:
-    ws.clear()
-    start_from = 1
+# # get csv worksheet
+# ws = spreadsheet.get_worksheet(worksheet_id)
+# print("Write to:", ws)
 
-# ws.add_rows(len(list_of_rows))
-print(list_of_rows)
-ws.insert_rows(list_of_rows, row=start_from)
+# if append_content:
+#     start_from = next_available_row(ws)
+#     list_of_rows = list_of_rows[1:]  # skip header row
+# else:
+#     ws.clear()
+#     start_from = 1
+
+# # ws.add_rows(len(list_of_rows))
+# print(list_of_rows)
+# ws.insert_rows(list_of_rows, row=start_from)

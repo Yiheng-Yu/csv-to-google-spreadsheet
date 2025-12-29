@@ -1,3 +1,5 @@
-gspread==4.0.0
-google-auth-oauthlib==0.4.6
-google-auth==1.34.0
+gspread==6.2.1
+google-auth-oauthlib==1.2.3
+google-auth==2.41.1
+pandas==2.3.3
+gspread-dataframe==4.0.0
