@@ -55,22 +55,8 @@ client = gspread.authorize(creds)
 spreadsheet = client.open_by_key(spreadsheet_id)
 
 # get csv worksheet
-sheet_name = csv_path.replace(".csv", "")
-print("Write to:", sheet_name)
-
-try:
-    ws = spreadsheet.get_worksheet(worksheet_id)
-
-# create a new sheet from file name if previous sheet was not found
-except gspread.exceptions.WorksheetNotFound:
-
-    current_num_sheets = len(spreadsheet.worksheets())
-    ws = spreadsheet.add_worksheet(
-        sheet_name, 
-        rows=len(list_of_rows), 
-        cols=len(list_of_rows[0])+1
-        )
-    append_content = False
+ws = spreadsheet.get_worksheet(worksheet_id)
+print("Write to:", ws)
 
 if append_content:
     start_from = next_available_row(ws)
