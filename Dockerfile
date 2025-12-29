@@ -1,7 +1,7 @@
-FROM ubuntu:focal
+FROM ubuntu:24.04
 
 # Install required system packages for our CronJob
-RUN apt-get update && apt-get install --yes --no-install-recommends python3-pip
+RUN apt-get update && apt-get install --yes --no-install-recommends python3.13 python3-pip
 
 COPY requirements.txt .
 COPY importer.py .
