@@ -32,21 +32,19 @@ def next_available_row(worksheet):
     str_list = list(filter(None, worksheet.col_values(1)))
     return len(str_list) + 1
 
-
-current_time = datetime.now().replace(second=0, microsecond=0)
-current_time = current_time.timestamp
-
 # Read csv file as a list of lists
 with open(csv_path, "r") as read_obj:
     # pass the file object to reader() to get the reader object
     csv_reader = reader(read_obj)
     # Pass reader object to list() to get a list of lists
     list_of_rows = list(csv_reader)
-    
-    # Insert update timestamp to the list
-    list_of_rows[0].insert(0, "update_time")
-    for data_row in list_of_rows[1:]:
-        data_row.insert(0, current_time)
+
+# Insert update timestamp to the list
+current_time = datetime.now().replace(second=0, microsecond=0)
+current_time = current_time.timestamp
+list_of_rows[0].append("update_time")
+for data_row in list_of_rows[1:]:
+    data_row.append(str(int(current_time)))
 
 creds = Credentials.from_service_account_info(
     service_account_info, scopes=scopes
@@ -65,5 +63,6 @@ else:
     ws.clear()
     start_from = 1
 
-ws.add_rows(len(list_of_rows))
+# ws.add_rows(len(list_of_rows))
+print(list_of_rows)
 ws.insert_rows(list_of_rows, row=start_from)
