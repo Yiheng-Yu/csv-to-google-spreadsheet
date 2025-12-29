@@ -1,20 +1,18 @@
-from csv import reader
+# from csv import reader
 from datetime import datetime
-from os import getenv, listdir
+from os import getenv
 
 import gspread
 import pandas as pd
 from google.oauth2.service_account import Credentials
 
-print(listdir("."))
-
 # Input vars
 csv_path = getenv("INPUT_CSV_PATH")
 spreadsheet_id = getenv("INPUT_SPREADSHEET_ID")
 worksheet_id = int(getenv("INPUT_WORKSHEET"))
-append_content = getenv("INPUT_APPEND_CONTENT", False)
+append_content = getenv("INPUT_APPEND_CONTENT", "false")
 
-print(append_content)
+append_content = append_content.lower().strip() == "true"
 
 service_account_info = {
     "token_uri": "https://oauth2.googleapis.com/token",
