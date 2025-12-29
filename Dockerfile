@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 
 # Install required system packages for our CronJob
-RUN apt-get update && apt-get install --yes --no-install-recommends python3.13 python3-pip
+RUN apt-get update && apt-get install --yes --no-install-recommends python3 python3-pip && apt-get pkg-config
 
 COPY requirements.txt .
 COPY importer.py .
