@@ -44,7 +44,7 @@ with open(csv_path, "r") as read_obj:
     list_of_rows = list(csv_reader)
     
     # Insert update timestamp to the list
-    list_of_rows[0].insert(0, "updated_time")
+    list_of_rows[0].insert(0, "update_time")
     for data_row in list_of_rows[1:]:
         data_row.insert(0, current_time)
 
@@ -66,7 +66,7 @@ except gspread.exceptions.WorksheetNotFound:
     ws = spreadsheet.add_worksheet(
         sheet_name, 
         rows=len(list_of_rows), 
-        cols=len(list_of_rows[0])
+        cols=len(list_of_rows[0])+1
         )
     append_content = False
 
