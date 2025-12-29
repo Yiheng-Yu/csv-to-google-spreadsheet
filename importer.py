@@ -30,7 +30,7 @@ def next_available_row(worksheet):
     gspread doesn't have a method to return the last row used
     """
     str_list = list(filter(None, worksheet.col_values(1)))
-    return str(len(str_list) + 1)
+    return len(str_list) + 1
 
 
 current_time = datetime.now().replace(second=0, microsecond=0)
@@ -73,10 +73,11 @@ except gspread.exceptions.WorksheetNotFound:
     append_content = False
 
 if append_content:
-    start_from = f"A{next_available_row(ws)}"
+    start_from = next_available_row(ws)
     list_of_rows = list_of_rows[1:]  # skip header row
 else:
     ws.clear()
-    start_from = "A1"
+    start_from = 1
 
-ws.update(start_from, list_of_rows)
+ws.add_rows(len(list_of_rows))
+ws.insert_rows(list_of_rows, row=start_from)
