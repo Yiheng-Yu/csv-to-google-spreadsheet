@@ -6,7 +6,7 @@ import gspread
 import pandas as pd
 from google.oauth2.service_account import Credentials
 
-print(listdir("exports"))
+print(listdir("."))
 
 # Input vars
 csv_path = getenv("INPUT_CSV_PATH")
