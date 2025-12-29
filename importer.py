@@ -51,14 +51,28 @@ with open(csv_path, "r") as read_obj:
 creds = Credentials.from_service_account_info(
     service_account_info, scopes=scopes
 )
-
 client = gspread.authorize(creds)
-
 spreadsheet = client.open_by_key(spreadsheet_id)
-ws = spreadsheet.get_worksheet(worksheet_id)
+
+# get csv worksheet
+sheet_name = csv_path.replace(".csv", "")
+try:
+    ws = spreadsheet.worksheet(sheet_name)
+
+# create a new sheet from file name if previous sheet was not found
+except gspread.exceptions.WorksheetNotFound:
+    print("Creating new sheet:", sheet_name)
+    current_num_sheets = len(spreadsheet.worksheets())
+    ws = spreadsheet.add_worksheet(
+        sheet_name, 
+        rows=len(list_of_rows), 
+        cols=len(list_of_rows[0])
+        )
+    append_content = False
 
 if append_content:
     start_from = f"A{next_available_row(ws)}"
+    list_of_rows = list_of_rows[1:]  # skip header row
 else:
     ws.clear()
     start_from = "A1"
