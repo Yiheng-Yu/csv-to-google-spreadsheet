@@ -1,6 +1,5 @@
 from csv import reader
 from datetime import datetime
-from distutils.util import strtobool
 from os import getenv, listdir
 
 import gspread
@@ -13,7 +12,9 @@ print(listdir("exports"))
 csv_path = getenv("INPUT_CSV_PATH")
 spreadsheet_id = getenv("INPUT_SPREADSHEET_ID")
 worksheet_id = int(getenv("INPUT_WORKSHEET"))
-append_content = strtobool(getenv("INPUT_APPEND_CONTENT", "False"))
+append_content = getenv("INPUT_APPEND_CONTENT", False)
+
+print(append_content)
 
 service_account_info = {
     "token_uri": "https://oauth2.googleapis.com/token",
