@@ -1,6 +1,7 @@
 # Google Spreadsheet - CSV importer GitHub Action
 This action allows you to upload your CSV file to a Google Spreadsheet.
 
+This is a modified version of [canonical-web-and-design/csv-to-google-spreadsheet](https://github.com/canonical-web-and-design/csv-to-google-spreadsheet), with majority (>80%) of the codebase refactored with newer python and pandas library, whilst the API remains the same, except this action does not overwrite any pre-existing data, but appending new data to the existing sheets as new rows (via *pd.concat(*, axis=0)*)
 
 ## Usage
 
@@ -10,7 +11,7 @@ To use the action add the following step to your workflow file (e.g.
 
 ```yml
 - name: Upload CSV to Spreadsheet
-  uses: canonical-web-and-design/csv-to-google-spreadsheet
+  uses: Yiheng-Yu/csv-to-google-spreadsheet
   with:
     csv_path: path/file.csv
     spreadsheet_id: ${{ secrets.google_spreadsheet_id }}
@@ -33,7 +34,7 @@ So the full step would look like:
 ```yml
 - name: Upload CSV to Spreadsheet
   if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
-  uses: canonical-web-and-design/csv-to-google-spreadsheet
+  uses: Yiheng-Yu/csv-to-google-spreadsheet
   with:
     csv_path: path/file.csv
     spreadsheet_id: ${{ secrets.google_spreadsheet_id }}
@@ -70,12 +71,11 @@ It is possible to append content to the worksheet, that means the content of you
 The action invocation in this case would look like:
 ```yml
 - name: Upload CSV to Spreadsheet
-  uses: canonical-web-and-design/csv-to-google-spreadsheet
+  uses: Yiheng-Yu/csv-to-google-spreadsheet
   with:
     csv_path: path/file.csv
     spreadsheet_id: ${{ secrets.google_spreadsheet_id }}
     worksheet: 0
-    append_content: true
     google_service_account_email: ${{ secrets.google_service_account_email }}
     google_service_account_private_key: ${{ secrets.google_service_account_private_key }}
 ```
