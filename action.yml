@@ -1,5 +1,5 @@
 # action.yml
-name: 'Google Spreadsheet - CSV importer'
+name: 'Append CSV to existing google spreadsheet'
 description: 'Import a CSV file into a Google Spreadsheet'
 inputs:
   csv_path:
