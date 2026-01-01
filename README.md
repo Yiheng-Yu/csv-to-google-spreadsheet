@@ -1,5 +1,4 @@
-# Google Spreadsheet - CSV importer GitHub Action
-This action allows you to upload your CSV file to a Google Spreadsheet.
+This action allows you to append your CSV file to a Google Spreadsheet.
 
 This is a modified version of [canonical-web-and-design/csv-to-google-spreadsheet](https://github.com/canonical-web-and-design/csv-to-google-spreadsheet), with majority (>80%) of the codebase refactored with newer python and pandas library, whilst the API remains the same, except this action does not overwrite any pre-existing data, but appending new data to the existing sheets as new rows (via *pd.concat(*, axis=0)*)
 
